@@ -1,6 +1,6 @@
 from typing import List, Tuple
 from functools import reduce
-
+import time
 
 
 # Each bit in the gamma rate can be determined by finding the most common bit
@@ -60,17 +60,17 @@ def get_most_common_bits(inputs: List[str], reversed: bool) -> str:
     result = ""
     candidates = list(range(len(inputs)))
 
-    print(reversed)
+    # print(reversed)
 
     amount_of_bits = len(inputs[0])
-    for bit in range(0, amount_of_bits):
+    for bit in range(amount_of_bits):
         if len(candidates) == 1:
             break
 
         amount_of_ones = 0
         amount_of_zeroes = 0
 
-        print(f'~~~~~ {bit} ~~~~')
+        # print(f'~~~~~ {bit} ~~~~')
 
         index = 0
         for binary_number in inputs:
@@ -79,7 +79,7 @@ def get_most_common_bits(inputs: List[str], reversed: bool) -> str:
 
             if not binary_number.startswith(result):
                 if index in candidates:
-                    print(f"  removing {index} from {candidates}")
+                    # print(f"  removing {index} from {candidates}")
                     candidates.remove(index)
                 index += 1
                 continue
@@ -91,8 +91,8 @@ def get_most_common_bits(inputs: List[str], reversed: bool) -> str:
             
             index += 1
 
-        print(f'  {amount_of_zeroes} 0s ... {amount_of_ones} 1s')
-        print(f'  candidates = {candidates}')
+        # print(f'  {amount_of_zeroes} 0s ... {amount_of_ones} 1s')
+        # print(f'  candidates = {candidates}')
         if reversed:
             if amount_of_ones < amount_of_zeroes:
                 result = f"{result}1"
@@ -103,20 +103,23 @@ def get_most_common_bits(inputs: List[str], reversed: bool) -> str:
                 result = f"{result}0"
             else:
                 result = f"{result}1"
-        print(f'  {result}')
+        # print(f'  {result}')
 
     return inputs[candidates[0]]
 
 
 if __name__ == "__main__":
+    start = time.time()
     with open("./day_3.txt", "r") as data:
-        inputs = data.read().split("\n")
+        inputs = data.readlines()
         # gamma, epsilon = part_1(inputs)
         # print('gamma =', gamma, 'epsilon =', epsilon)
         # print('gamma =', int(gamma, 2), 'epsilon =', int(epsilon, 2))
         # print('multiplied:', int(gamma, 2) * int(epsilon, 2))
 
-        oxygen, co2 = part_2(inputs)
-        print(f"oxygen = {oxygen}, co2 = {co2}")
-        print('oxygen =', int(oxygen, 2), 'co2 =', int(co2, 2))
-        print('multiplied:', int(oxygen, 2) * int(co2, 2))
+    oxygen, co2 = part_2(inputs)
+    # print(f"oxygen = {oxygen}, co2 = {co2}")
+    # print('oxygen =', int(oxygen, 2), 'co2 =', int(co2, 2))
+    print(int(oxygen, 2) * int(co2, 2))
+
+    print(time.time() - start)
